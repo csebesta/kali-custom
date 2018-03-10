@@ -2,6 +2,8 @@
 # Kali Linux ISO recipe for minimal rescue image
 # Written by Chad Sebesta
 
+set -o errexit
+
 # Update and install dependencies
 apt-get update
 apt-get install git live-build cdebootstrap devscripts stow -y
@@ -40,18 +42,16 @@ vim
 EOF
 
 # Set up slide
-git clone https://github.com/csebesta/slide kali-config/common/includes.chroot/root/.slide
-cd kali-config/common/includes.chroot/root/.slide
-
-# Remove contents of target directory
-for $file in $(find -type f ..); do
-	rm -rf "../$file"
-done
+git clone https://github.com/csebesta/slide \
+kali-config/common/includes.chroot/root/.slide \
+&& cd kali-config/common/includes.chroot/root/.slide
 
 # Stow directories
 for directory in */; do
 
-	stow -t .. $directory > /dev/null 2>&1
+	stow -t .. $directory > /dev/null 2>&1 \
+	&& echo "Stowed $directory" \
+	|| echo "Failed to stow $directory"
 
 done
 
