@@ -10,7 +10,7 @@ cd live-build-config
 
 # Custom package list
 cat > kali-config/variant-default/package-lists/kali.list.chroot << EOF
-# Defaults
+# Defaults suggested by kali documentation
 alsa-tools
 debian-installer-launcher
 kali-archive-keyring
@@ -28,19 +28,35 @@ suckless-tools
 xmobar
 xmonad
 
-# Utilities
+# Utilities and tools
+firefox-esr
 git
 gparted
 #kali-linux-top10
 redshift
 rxvt-unicode
+stow
 vim
 EOF
 
 # Set up slide
-git clone https://github.com/csebesta/slide kali-config/common/includes.chroot/root
-cd kali-config/common/includes.chroot/root/slide
-./setup.sh
+git clone https://github.com/csebesta/slide kali-config/common/includes.chroot/root/.slide
+cd kali-config/common/includes.chroot/root/.slide
+
+# Remove contents of target directory
+for $file in $(find -type f ..); do
+	rm -rf "../$file"
+done
+
+# Stow directories
+for directory in */; do
+
+	stow -t .. $directory > /dev/null 2>&1
+
+done
+
+# Return to previous directory
+cd -
 
 # Build image
 ./build.sh -v
