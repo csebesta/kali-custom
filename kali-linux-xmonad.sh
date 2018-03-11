@@ -15,8 +15,8 @@ alsa-tools
 #debian-installer-launcher
 kali-archive-keyring
 kali-debtags
-#kali-defaults
-#kali-menu
+kali-defaults
+kali-menu
 kali-root-login
 locales-all
 pulseaudio
@@ -47,14 +47,16 @@ gm convert \
 	kali-config/common/bootloaders/grub-pc/splash.png
 
 # Modify splash screen
+# This is the one that works
 gm convert \
 	-size 640x480 xc:#002b36 \
 	kali-config/common/includes.binary/isolinux/splash.png
 
 # Configure profile
 cat >> kali-config/common/includes.chroot/etc/profile << EOF
+
 # Include scripts directory
-PATH="$PATH:$HOME/.scripts"
+export PATH="$PATH:$HOME/.scripts"
 EOF
 
 
