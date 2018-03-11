@@ -2,9 +2,15 @@
 # Kali Linux ISO recipe for minimal rescue image
 # Written by Chad Sebesta
 
+# Reference material:
+# https://debian-live.alioth.debian.org/live-manual/stable/manual/html/live-manual.en.html
+# https://docs.kali.org/kali-dojo/02-mastering-live-build
+# https://github.com/offensive-security/kali-linux-recipes
+# https://kali.training/topic/building-custom-kali-live-iso-images/
+
 # Update and install dependencies
-apt-get update
-apt-get install git curl live-build cdebootstrap devscripts stow graphicsmagick -y
+#apt-get update
+#apt-get install git curl live-build cdebootstrap devscripts stow graphicsmagick -y
 git clone git://git.kali.org/live-build-config.git
 cd live-build-config
 
@@ -41,6 +47,9 @@ stow
 vim
 EOF
 
+# Populate skel directory
+mkdir -p kali-config/common/includes.chroot/etc/skel/{Desktop,Documents,Downloads,Music,Pictures,Public,Templates,Videos}
+
 # Modify splash screen
 gm convert \
 	-size 640x480 xc:#002b36 \
@@ -62,13 +71,13 @@ gm convert \
 #export PATH="$PATH:$HOME/.scripts"
 #EOF
 
-
 # Set up slide
 git clone https://github.com/csebesta/slide \
 kali-config/common/includes.chroot/root/.slide \
 && cd kali-config/common/includes.chroot/root/.slide
 
 # Stow directories
+# Bash will fail to stow
 for directory in */; do
 
 	stow -t .. $directory > /dev/null 2>&1 \
@@ -79,6 +88,9 @@ done
 
 # Return to previous directory
 cd -
+
+# Exit for testing purposes
+exit && echo "Exiting program"
 
 # Build image
 ./build.sh -v
