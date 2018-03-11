@@ -46,6 +46,18 @@ gm convert \
 	-size 640x480 xc:#002b36 \
 	kali-config/common/bootloaders/grub-pc/splash.png
 
+# Modify splash screen
+gm convert \
+	-size 640x480 xc:#002b36 \
+	kali-config/common/includes.binary/isolinux/splash.png
+
+# Configure profile
+cat >> kali-config/common/includes.chroot/etc/profile << EOF
+# Include scripts directory
+PATH="$PATH:$HOME/.scripts"
+EOF
+
+
 # Set up slide
 git clone https://github.com/csebesta/slide \
 kali-config/common/includes.chroot/root/.slide \
