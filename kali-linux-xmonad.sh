@@ -20,6 +20,7 @@ kali-debtags
 kali-root-login
 locales-all
 pulseaudio
+wireless-tools
 xorg
 
 # Desktop environment (slide dependencies)
@@ -43,7 +44,7 @@ EOF
 # Modify splash screen
 gm convert \
 	-size 640x480 xc:#002b36 \
-	./kali-config/common/bootloaders/grub-pc/splash.png
+	kali-config/common/bootloaders/grub-pc/splash.png
 
 # Set up slide
 git clone https://github.com/csebesta/slide \
