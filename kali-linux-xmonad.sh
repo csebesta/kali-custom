@@ -52,12 +52,15 @@ gm convert \
 	-size 640x480 xc:#002b36 \
 	kali-config/common/includes.binary/isolinux/splash.png
 
-# Configure profile
-cat >> kali-config/common/includes.chroot/etc/profile << EOF
-
-# Include scripts directory
-export PATH="$PATH:$HOME/.scripts"
-EOF
+# This method does not work because information cannot be appended to a file that does not exist yet
+# The file does not exist until build.sh is run
+## Configure profile
+#mkdir -p kali-config/common/includes.chroot/etc
+#cat >> kali-config/common/includes.chroot/etc/profile << EOF
+#
+## Include scripts directory
+#export PATH="$PATH:$HOME/.scripts"
+#EOF
 
 
 # Set up slide
