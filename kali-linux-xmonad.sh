@@ -53,23 +53,33 @@ mkdir -p kali-config/common/includes.chroot/etc/skel/{Desktop,Documents,Download
 # Modify splash screen
 gm convert \
 	-size 640x480 xc:#002b36 \
-	kali-config/common/bootloaders/grub-pc/splash.png
-
-# Modify splash screen
-# This is the one that works
-gm convert \
-	-size 640x480 xc:#002b36 \
 	kali-config/common/includes.binary/isolinux/splash.png
 
-# This method does not work because information cannot be appended to a file that does not exist yet
-# The file does not exist until build.sh is run
-## Configure profile
-#mkdir -p kali-config/common/includes.chroot/etc
-#cat >> kali-config/common/includes.chroot/etc/profile << EOF
-#
-## Include scripts directory
-#export PATH="$PATH:$HOME/.scripts"
-#EOF
+# Modify filesystem after creation
+# Single quotes prevent expansion within contents
+touch kali-config/common/hooks/live/modifications.chroot
+chmod +x kali-config/common/hooks/live/modifications.chroot
+cat > kali-config/common/hooks/live/modifications.chroot << 'EOF'
+#!/bin/bash
+# Script to modify contents of filesystem
+
+# ----------------------------------------------------------------------
+# Modify profile
+cat >> /etc/profile << 'END'
+
+# Modify path
+export PATH="$PATH:$HOME/.scripts"
+END
+
+# ----------------------------------------------------------------------
+# Modify bashrc 
+cat >> /root/.bashrc << END
+
+# Set editor
+export EDITOR='vim'
+export VISUAL='vim'
+END
+EOF
 
 # Set up slide
 git clone https://github.com/csebesta/slide \
