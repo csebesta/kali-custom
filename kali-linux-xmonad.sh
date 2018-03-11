@@ -8,9 +8,11 @@
 # https://github.com/offensive-security/kali-linux-recipes
 # https://kali.training/topic/building-custom-kali-live-iso-images/
 
+# ----------------------------------------------------------------------
+# Basics
 # Update and install dependencies
-#apt-get update
-#apt-get install git curl live-build cdebootstrap devscripts stow graphicsmagick -y
+apt-get update
+apt-get install git curl live-build cdebootstrap devscripts stow graphicsmagick -y
 git clone git://git.kali.org/live-build-config.git
 cd live-build-config
 
@@ -18,15 +20,15 @@ cd live-build-config
 cat > kali-config/variant-default/package-lists/kali.list.chroot << EOF
 # Defaults suggested by kali documentation
 alsa-tools
-#debian-installer-launcher
+debian-installer-launcher
 kali-archive-keyring
 kali-debtags
 kali-defaults
 kali-menu
 kali-root-login
 locales-all
-pulseaudio
-wireless-tools
+#pulseaudio
+#wireless-tools
 xorg
 
 # Desktop environment (slide dependencies)
@@ -73,7 +75,7 @@ END
 
 # ----------------------------------------------------------------------
 # Modify bashrc 
-cat >> /root/.bashrc << END
+cat >> /root/.bashrc << 'END'
 
 # Set editor
 export EDITOR='vim'
