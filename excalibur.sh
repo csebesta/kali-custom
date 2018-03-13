@@ -8,8 +8,10 @@
 # https://github.com/offensive-security/kali-linux-recipes
 # https://kali.training/topic/building-custom-kali-live-iso-images/
 
-# ----------------------------------------------------------------------
-# Basics
+################################################################################
+# Excalibur linux
+################################################################################
+
 # Update and install dependencies
 apt-get update
 apt-get install git curl live-build cdebootstrap devscripts stow graphicsmagick -y
@@ -49,37 +51,31 @@ stow
 vim
 EOF
 
-# Populate skel directory
-mkdir -p kali-config/common/includes.chroot/etc/skel/{Desktop,Documents,Downloads,Music,Pictures,Public,Templates,Videos}
-
 # Modify splash screen
 gm convert \
 	-size 640x480 xc:#002b36 \
 	kali-config/common/includes.binary/isolinux/splash.png
 
+# Populate skel directory
+mkdir -p kali-config/common/includes.chroot/etc/skel/{Desktop,Documents,Downloads,Music,Pictures,Public,Templates,Videos}
+
 # Modify filesystem after creation
 # Single quotes prevent expansion within contents
-touch kali-config/common/hooks/live/modifications.chroot
-chmod +x kali-config/common/hooks/live/modifications.chroot
+touch kali-config/common/hooks/live/modifications.chroot && chmod +x $_
 cat > kali-config/common/hooks/live/modifications.chroot << 'EOF'
 #!/bin/bash
 # Script to modify contents of filesystem
 
 # ----------------------------------------------------------------------
-# Modify profile
-cat >> /etc/profile << 'END'
-
-# Modify path
-export PATH="$PATH:$HOME/.scripts"
-END
-
-# ----------------------------------------------------------------------
-# Modify bashrc 
+# Modify bashrc
 cat >> /root/.bashrc << 'END'
 
 # Set editor
 export EDITOR='vim'
 export VISUAL='vim'
+
+# Set path to include personal scripts
+export PATH="$PATH:$HOME/.scripts"
 END
 EOF
 
@@ -87,6 +83,9 @@ EOF
 git clone https://github.com/csebesta/slide \
 kali-config/common/includes.chroot/root/.slide \
 && cd kali-config/common/includes.chroot/root/.slide
+
+# Remove files such that slide will stow correctly
+rm ../.bashrc
 
 # Stow directories
 # Bash will fail to stow
@@ -101,11 +100,12 @@ done
 # Return to previous directory
 cd -
 
-# Exit for testing purposes
+## Exit for testing purposes
 #exit && echo "Exiting program"
 
 ## Build image for older hardware
 #sed -i 's/686-pae/686/g' auto/config
 #./build.sh --distribution kali-rolling --arch i386 --verbose
 
+# Build and notify when complete with a beep
 ./build.sh -v
