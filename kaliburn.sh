@@ -79,12 +79,12 @@ END
 EOF
 
 # Change hostname
-cat > kali-config/common/hooks/includes.chroot/etc/hostname << 'EOF'
+cat > kali-config/common/includes.chroot/etc/hostname << 'EOF'
 kaliburn
 EOF
 
 # Blacklist pcspkr module
-cat > kali-config/common/hooks/includes.chroot/etc/modprobe.d/nobeep.conf << 'EOF'
+cat > kali-config/common/includes.chroot/etc/modprobe.d/nobeep.conf << 'EOF'
 blacklist pcspkr
 EOF
 
