@@ -78,6 +78,11 @@ export PATH="$PATH:$HOME/.scripts"
 END
 EOF
 
+# Change hostname
+cat > kali-config/common/hooks/includes.chroot/etc/hostname << 'EOF'
+kaliburn
+EOF
+
 # Blacklist pcspkr module
 cat > kali-config/common/hooks/includes.chroot/etc/modprobe.d/nobeep.conf << 'EOF'
 blacklist pcspkr
@@ -114,6 +119,12 @@ gm convert \
 	kali-config/common/includes.binary/isolinux/splash.png
 
 # Change color of menu entries
+# Background highlight (Base02)
+sed -i 's/76a1d0/073642/g' kali-config/common/includes.binary/isolinux/stdmenu.cfg
+
+# Remove menu entries
+rm kali-config/common/hooks/live/persistence-menu.binary
+rm kali-config/common/hooks/live/accessibility-menu.binary
 
 ################################################################################
 # Build image
