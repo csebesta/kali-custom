@@ -79,11 +79,13 @@ END
 EOF
 
 # Change hostname
+mkdir -p kali-config/common/includes.chroot/etc && \
 cat > kali-config/common/includes.chroot/etc/hostname << 'EOF'
 kaliburn
 EOF
 
 # Blacklist pcspkr module
+mkdir -p kali-config/common/includes.chroot/etc/modprobe.d && \
 cat > kali-config/common/includes.chroot/etc/modprobe.d/nobeep.conf << 'EOF'
 blacklist pcspkr
 EOF
