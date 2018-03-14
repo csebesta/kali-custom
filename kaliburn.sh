@@ -27,7 +27,7 @@ debian-installer-launcher
 kali-archive-keyring
 kali-debtags
 #kali-defaults
-kali-menu
+#kali-menu
 kali-root-login
 locales-all
 #pulseaudio
@@ -56,15 +56,10 @@ EOF
 
 ################################################################################
 # Modify files and file system
+# Single quotes around heredoc prevent expansion within contents
 ################################################################################
 
-# Modify splash screen
-gm convert \
-	-size 640x480 xc:#002b36 \
-	kali-config/common/includes.binary/isolinux/splash.png
-
-# Modify filesystem after creation
-# Single quotes prevent expansion within contents
+# Add lines to various files after creation
 touch kali-config/common/hooks/live/modifications.chroot && chmod +x $_
 cat > kali-config/common/hooks/live/modifications.chroot << 'EOF'
 #!/bin/bash
@@ -81,6 +76,11 @@ export VISUAL='vim'
 # Set path to include personal scripts
 export PATH="$PATH:$HOME/.scripts"
 END
+EOF
+
+# Blacklist pcspkr module
+cat > kali-config/common/hooks/includes.chroot/etc/modprobe.d/nobeep.conf << 'EOF'
+blacklist pcspkr
 EOF
 
 # Set up slide
@@ -103,6 +103,17 @@ done
 
 # Return to previous directory
 cd - > /dev/null 2>&1
+
+################################################################################
+# Modify isolinux
+################################################################################
+
+# Modify splash screen
+gm convert \
+	-size 640x480 xc:#002b36 \
+	kali-config/common/includes.binary/isolinux/splash.png
+
+# Change color of menu entries
 
 ################################################################################
 # Build image
