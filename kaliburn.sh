@@ -20,12 +20,13 @@ cd live-build-config
 
 # Custom package list
 cat > kali-config/variant-default/package-lists/kali.list.chroot << EOF
+# ----------------------------------------------------------------------
 # Defaults suggested by kali documentation
 alsa-tools
 debian-installer-launcher
 kali-archive-keyring
 kali-debtags
-kali-defaults
+#kali-defaults
 kali-menu
 kali-root-login
 locales-all
@@ -33,6 +34,7 @@ locales-all
 #wireless-tools
 xorg
 
+# ----------------------------------------------------------------------
 # Desktop environment (slide dependencies)
 feh
 graphicsmagick
@@ -41,8 +43,9 @@ suckless-tools
 xmobar
 xmonad
 
+# ----------------------------------------------------------------------
 # Utilities and tools
-#firefox-esr
+firefox-esr
 git
 gparted
 #kali-linux-top10
@@ -50,6 +53,10 @@ gparted
 stow
 vim
 EOF
+
+################################################################################
+# Modify files and file system
+################################################################################
 
 # Modify splash screen
 gm convert \
@@ -61,7 +68,7 @@ gm convert \
 touch kali-config/common/hooks/live/modifications.chroot && chmod +x $_
 cat > kali-config/common/hooks/live/modifications.chroot << 'EOF'
 #!/bin/bash
-# Script to modify contents of filesystem
+# Script to modify contents of file system
 
 # ----------------------------------------------------------------------
 # Modify bashrc
@@ -96,6 +103,10 @@ done
 
 # Return to previous directory
 cd - > /dev/null 2>&1
+
+################################################################################
+# Build image
+################################################################################
 
 ## Exit for testing purposes
 #exit && echo "Exiting..."
