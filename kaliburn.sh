@@ -67,10 +67,9 @@ EOF
 touch kali-config/common/hooks/live/bashrc.chroot && chmod +x $_
 cat > kali-config/common/hooks/live/bashrc.chroot << 'EOF'
 #!/bin/bash
-# Script to modify contents of file system
+# Script to modify bashrc
 
-# ----------------------------------------------------------------------
-# Modify bashrc
+# Append the following lines
 cat >> /root/.bashrc << 'END'
 
 # Set editor
@@ -108,6 +107,21 @@ EOF
 mkdir -p kali-config/common/includes.chroot/etc && \
 cat > kali-config/common/includes.chroot/etc/hostname << 'EOF'
 kaliburn
+EOF
+
+# Change tty font size
+touch kali-config/common/hooks/live/tty.chroot && chmod +x $_
+cat > kali-config/common/hooks/live/tty.chroot << 'EOF'
+#!/bin/bash
+# Script to change tty font size
+# See man console-setup
+
+# Target file
+TARGET=/etc/default/console-setup
+
+# Replace variables in target file
+sed -i 's/FONTFACE=/c\FONTFACE="TerminusBold"' $TARGET
+sed -i 's/FONTSIZE=/c\FONTSIZE="16"' $TARGET
 EOF
 
 # Blacklist pcspkr module
