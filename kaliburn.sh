@@ -23,12 +23,13 @@ cat > kali-config/variant-default/package-lists/kali.list.chroot << EOF
 # ----------------------------------------------------------------------
 # Defaults suggested by kali documentation
 alsa-tools
+coreutils
 debian-installer-launcher
 kali-archive-keyring
 kali-debtags
 #kali-defaults
 #kali-menu
-kali-root-login
+#kali-root-login
 locales-all
 #pulseaudio
 #wireless-tools
@@ -49,19 +50,22 @@ firefox-esr
 git
 gparted
 #kali-linux-top10
+p7zip-full
+parted
+#python3
 #redshift
 stow
 vim
 EOF
 
 ################################################################################
-# Modify files and file system
+# Modify files within file system
 # Single quotes around heredoc prevent expansion within contents
 ################################################################################
 
-# Add lines to various files after creation
-touch kali-config/common/hooks/live/modifications.chroot && chmod +x $_
-cat > kali-config/common/hooks/live/modifications.chroot << 'EOF'
+# Add lines to default bashrc
+touch kali-config/common/hooks/live/bashrc.chroot && chmod +x $_
+cat > kali-config/common/hooks/live/bashrc.chroot << 'EOF'
 #!/bin/bash
 # Script to modify contents of file system
 
@@ -75,6 +79,28 @@ export VISUAL='vim'
 
 # Set path to include personal scripts
 export PATH="$PATH:$HOME/.scripts"
+
+# Solarized theme for tty
+# https://github.com/joepvd/tty-solarized
+if [ "$TERM" = "linux" ]; then
+    echo -en "\e]PB657b83" # S_base00
+    echo -en "\e]PA586e75" # S_base01
+    echo -en "\e]P0073642" # S_base02
+    echo -en "\e]P62aa198" # S_cyan
+    echo -en "\e]P8002b36" # S_base03
+    echo -en "\e]P2859900" # S_green
+    echo -en "\e]P5d33682" # S_magenta
+    echo -en "\e]P1dc322f" # S_red
+    echo -en "\e]PC839496" # S_base0
+    echo -en "\e]PE93a1a1" # S_base1
+    echo -en "\e]P9cb4b16" # S_orange
+    echo -en "\e]P7eee8d5" # S_base2
+    echo -en "\e]P4268bd2" # S_blue
+    echo -en "\e]P3b58900" # S_yellow
+    echo -en "\e]PFfdf6e3" # S_base3
+    echo -en "\e]PD6c71c4" # S_violet
+    clear # against bg artifacts
+fi
 END
 EOF
 
