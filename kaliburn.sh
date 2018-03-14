@@ -9,7 +9,7 @@
 # https://kali.training/topic/building-custom-kali-live-iso-images/
 
 ################################################################################
-# Excalibur linux
+# Kaliburn linux
 ################################################################################
 
 # Update and install dependencies
@@ -56,9 +56,6 @@ gm convert \
 	-size 640x480 xc:#002b36 \
 	kali-config/common/includes.binary/isolinux/splash.png
 
-# Populate skel directory
-mkdir -p kali-config/common/includes.chroot/etc/skel/{Desktop,Documents,Downloads,Music,Pictures,Public,Templates,Videos}
-
 # Modify filesystem after creation
 # Single quotes prevent expansion within contents
 touch kali-config/common/hooks/live/modifications.chroot && chmod +x $_
@@ -98,14 +95,14 @@ for directory in */; do
 done
 
 # Return to previous directory
-cd -
+cd - > /dev/null 2>&1
 
 ## Exit for testing purposes
-#exit && echo "Exiting program"
+#exit && echo "Exiting..."
 
 ## Build image for older hardware
 #sed -i 's/686-pae/686/g' auto/config
 #./build.sh --distribution kali-rolling --arch i386 --verbose
 
-# Build and notify when complete with a beep
+# Build image
 ./build.sh -v
