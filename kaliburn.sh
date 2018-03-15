@@ -117,7 +117,7 @@ ACTIVE_CONSOLES="/dev/tty[1-6]"
 CHARMAP="UTF-8"
 CODESET="Lat15"
 FONTFACE="TerminusBold"
-FONTSIZE="16"
+FONTSIZE="20x10"
 VIDEOMODE=
 EOF
 
@@ -158,8 +158,9 @@ gm convert \
 	kali-config/common/includes.binary/isolinux/splash.png
 
 # Change color of menu entries
+# Color format is #AARRGGBB
 # Background highlight (Base02)
-sed -i 's/76a1d0/073642/g' kali-config/common/includes.binary/isolinux/stdmenu.cfg
+sed -i 's/76a1d0ff/ff073642/g' kali-config/common/includes.binary/isolinux/stdmenu.cfg
 
 # Remove menu entries
 rm kali-config/common/hooks/live/persistence-menu.binary
