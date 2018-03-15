@@ -166,6 +166,19 @@ sed -i 's/76a1d0ff/ff073642/g' kali-config/common/includes.binary/isolinux/stdme
 rm kali-config/common/hooks/live/persistence-menu.binary
 rm kali-config/common/hooks/live/accessibility-menu.binary
 
+# Add hook to remove other menu entries
+touch kali-config/common/hooks/live/remove-menu.binary && chmod +x $_
+cat > kali-config/common/hooks/live/remove-menu.binary << 'EOF'
+#!/bin/bash
+# Script to remove unwanted menu entries
+
+if [ ! -d isolinux ]; then
+	cd binary
+fi
+
+rm isolinux/install.cfg
+EOF
+
 ################################################################################
 # Build image
 ################################################################################
