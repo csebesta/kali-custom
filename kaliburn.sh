@@ -109,19 +109,16 @@ cat > kali-config/common/includes.chroot/etc/hostname << 'EOF'
 kaliburn
 EOF
 
-# Change tty font size
-touch kali-config/common/hooks/live/tty.chroot && chmod +x $_
-cat > kali-config/common/hooks/live/tty.chroot << 'EOF'
-#!/bin/bash
-# Script to change tty font size
-# See man console-setup
-
-# Target file
-TARGET=/etc/default/console-setup
-
-# Replace variables in target file
-sed -i 's/FONTFACE=/c\FONTFACE="TerminusBold"' $TARGET
-sed -i 's/FONTSIZE=/c\FONTSIZE="16"' $TARGET
+# Change tty attributes
+# Values copied from standard kali installation
+mkdir -p kali-config/common/includes.chroot/etc/default && \
+cat > kali-config/common/includes.chroot/etc/default/console-setup << 'EOF'
+ACTIVE_CONSOLES="/dev/tty[1-6]"
+CHARMAP="UTF-8"
+CODESET="Lat15"
+FONTFACE="TerminusBold"
+FONTSIZE="16"
+VIDEOMODE=
 EOF
 
 # Blacklist pcspkr module
