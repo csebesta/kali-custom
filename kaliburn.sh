@@ -157,9 +157,9 @@ cd - > /dev/null 2>&1
 
 # Modify firefox preferences
 mkdir -p kali-config/common/includes.chroot/etc/firefox-esr && \
-cat > kali-config/common/includes.chroot/etc/firefox-esr/prefs.js << 'EOF'
-// Default settings
-pref("browser.startup.homepage", "https://www.google.com")
+cat > kali-config/common/includes.chroot/etc/firefox-esr/kaliburn.js << 'EOF'
+/* Kaliburn default settings */
+pref("browser.startup.homepage", "data:text/plain,browser.startup.homepage=https://www.google.com")
 EOF
 
 ################################################################################
