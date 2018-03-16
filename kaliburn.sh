@@ -23,6 +23,7 @@ cat > kali-config/variant-default/package-lists/kali.list.chroot << EOF
 # ----------------------------------------------------------------------
 # Defaults suggested by kali documentation
 alsa-tools
+alsa-utils
 coreutils
 debian-installer-launcher
 kali-archive-keyring
@@ -72,13 +73,6 @@ cat > kali-config/common/hooks/live/bashrc.chroot << 'EOF'
 # Append the following lines
 cat >> /root/.bashrc << 'END'
 
-# Set editor
-export EDITOR='vim'
-export VISUAL='vim'
-
-# Set path to include personal scripts
-export PATH="$PATH:$HOME/.scripts"
-
 # Solarized theme for tty
 # https://github.com/joepvd/tty-solarized
 if [ "$TERM" = "linux" ]; then
@@ -101,6 +95,14 @@ if [ "$TERM" = "linux" ]; then
     clear # against bg artifacts
 fi
 END
+EOF
+
+# Configure environment
+mkdir -p kali-config/common/includes.chroot/etc && \
+cat > kali-config/common/includes.chroot/etc/environment << 'EOF'
+PATH='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.scripts'
+EDITOR='vim'
+VISUAL='vim'
 EOF
 
 # Change hostname
