@@ -24,6 +24,7 @@ cat > kali-config/variant-default/package-lists/kali.list.chroot << EOF
 # Defaults suggested by kali documentation
 alsa-tools
 alsa-utils
+console-setup
 coreutils
 debian-installer-launcher
 kali-archive-keyring
