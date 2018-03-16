@@ -151,6 +151,17 @@ done
 cd - > /dev/null 2>&1
 
 ################################################################################
+# Software configuration
+################################################################################
+
+# Modify firefox preferences
+mkdir -p kali-config/common/includes.chroot/etc/firefox-esr && \
+cat > kali-config/common/includes.chroot/etc/firefox-esr/prefs.js << 'EOF'
+// Default settings
+pref("browser.startup.homepage", "https://www.google.com")
+EOF
+
+################################################################################
 # Modify isolinux
 ################################################################################
 
