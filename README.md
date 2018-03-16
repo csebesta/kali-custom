@@ -8,7 +8,7 @@ Features
 
 - Simple customization through the kaliburn.sh script
 - Inherits all the special features of a standard Kali Linux image
-- A subdued and professional look and feel, featuring the popular Solarized color scheme
+- A subdued and professional look, featuring the popular Solarized color scheme
 - Sane software defaults
 
 Installation
