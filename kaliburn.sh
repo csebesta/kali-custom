@@ -29,11 +29,8 @@ coreutils
 debian-installer-launcher
 kali-archive-keyring
 kali-debtags
-#kali-defaults
-#kali-menu
-#kali-root-login
 locales-all
-#pulseaudio
+pulseaudio
 #wireless-tools
 xfonts-terminus
 xorg
@@ -55,8 +52,8 @@ gparted
 #kali-linux-top10
 p7zip-full
 parted
-#python3
-#redshift
+python3
+redshift
 stow
 vim
 EOF
@@ -121,7 +118,7 @@ ACTIVE_CONSOLES="/dev/tty[1-6]"
 CHARMAP="UTF-8"
 CODESET="Lat15"
 FONTFACE="TerminusBold"
-FONTSIZE="20x10"
+FONTSIZE="16x32"
 VIDEOMODE=
 EOF
 
