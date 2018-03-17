@@ -151,15 +151,25 @@ done
 # Return to previous directory
 cd - > /dev/null 2>&1
 
+# Overwrite default xinitrc with testing values
+cat > kali-config/common/includes.chroot/root/.xinitrc << 'EOF'
+export PATH="$PATH:$HOME/.scripts"
+xrdb ~/.Xresources
+xsetroot -cursor_name left_ptr
+backinfo.sh
+exec xmonad
+EOF
+
 ################################################################################
 # Software configuration
 ################################################################################
 
 # Modify firefox preferences
+# https://developer.mozilla.org/en-US/docs/Mozilla/Preferences/A_brief_guide_to_Mozilla_preferences
 mkdir -p kali-config/common/includes.chroot/etc/firefox-esr && \
 cat > kali-config/common/includes.chroot/etc/firefox-esr/kaliburn.js << 'EOF'
 /* Kaliburn default settings */
-pref("browser.startup.homepage", "data:text/plain,browser.startup.homepage=https://www.google.com")
+lockPref("browser.startup.homepage", "https://google.com");
 EOF
 
 ################################################################################
