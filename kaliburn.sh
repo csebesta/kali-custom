@@ -35,6 +35,7 @@ kali-debtags
 locales-all
 #pulseaudio
 #wireless-tools
+xfonts-terminus
 xorg
 
 # ----------------------------------------------------------------------
@@ -156,7 +157,7 @@ cat > kali-config/common/includes.chroot/root/.xinitrc << 'EOF'
 export PATH="$PATH:$HOME/.scripts"
 xrdb ~/.Xresources
 xsetroot -cursor_name left_ptr
-backinfo.sh
+backinfo
 exec xmonad
 EOF
 
@@ -170,6 +171,7 @@ mkdir -p kali-config/common/includes.chroot/etc/firefox-esr && \
 cat > kali-config/common/includes.chroot/etc/firefox-esr/kaliburn.js << 'EOF'
 /* Kaliburn default settings */
 lockPref("browser.startup.homepage", "https://google.com");
+lockPref("browser.startup.homepage_override.mstone", "ignore");
 EOF
 
 ################################################################################
@@ -181,9 +183,8 @@ gm convert \
 	-size 640x480 xc:#002b36 \
 	kali-config/common/includes.binary/isolinux/splash.png
 
-# Change color of menu entries
+# Change color of background highlight (Base02)
 # Color format is #AARRGGBB
-# Background highlight (Base02)
 sed -i 's/76a1d0ff/ff073642/g' kali-config/common/includes.binary/isolinux/stdmenu.cfg
 
 # Remove menu entries
