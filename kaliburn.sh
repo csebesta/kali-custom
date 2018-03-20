@@ -46,16 +46,23 @@ xmonad
 
 # ----------------------------------------------------------------------
 # Utilities and tools
+curl
 firefox-esr
 git
 gparted
-#kali-linux-top10
 p7zip-full
 parted
 python3
+ranger
 redshift
 stow
 vim
+
+# ----------------------------------------------------------------------
+# Security and penetration testing
+aircrack-ng
+nmap
+wireshark
 EOF
 
 ################################################################################
@@ -94,6 +101,14 @@ if [ "$TERM" = "linux" ]; then
     clear # against bg artifacts
 fi
 END
+EOF
+
+## Change default password
+#touch kali-config/common/includes.chroot/usr/lib/live/config/0031-root-password && chmod +x $_
+#cat > kali-config/common/includes.chroot/usr/lib/live/config/0031-root-password << 'EOF'
+##!/bin/sh
+
+usermod -p 'X0AcwEeq.8NyA' root
 EOF
 
 # Configure environment
