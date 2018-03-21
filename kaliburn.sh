@@ -109,7 +109,7 @@ touch kali-config/common/includes.chroot/usr/lib/live/config/0031-root-password 
 cat > kali-config/common/includes.chroot/usr/lib/live/config/0031-root-password << 'EOF'
 #!/bin/sh
 
-usermod -p '8Hut9hGHuVNjU' root
+usermod -p 'RGGDUNbXi72Co' root
 EOF
 
 # Configure environment
