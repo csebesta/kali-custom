@@ -18,6 +18,10 @@ apt-get install git curl live-build cdebootstrap devscripts stow graphicsmagick 
 git clone git://git.kali.org/live-build-config.git
 cd live-build-config
 
+################################################################################
+# Package list
+################################################################################
+
 # Custom package list
 cat > kali-config/variant-default/package-lists/kali.list.chroot << EOF
 # ----------------------------------------------------------------------
@@ -66,17 +70,15 @@ wireshark
 EOF
 
 ################################################################################
-# Modify files within file system
-# Single quotes around heredoc prevent expansion within contents
+# System configuration
 ################################################################################
 
 # Add lines to default bashrc
 touch kali-config/common/hooks/live/bashrc.chroot && chmod +x $_
 cat > kali-config/common/hooks/live/bashrc.chroot << 'EOF'
 #!/bin/bash
-# Script to modify bashrc
 
-# Append the following lines
+# Append the following lines to bashrc
 cat >> /root/.bashrc << 'END'
 
 # Solarized theme for tty
@@ -104,7 +106,7 @@ END
 EOF
 
 # Change default password
-# Password generated with openssl passwd
+# Password hash generated with openssl passwd
 touch kali-config/common/includes.chroot/usr/lib/live/config/0031-root-password && chmod +x $_
 cat > kali-config/common/includes.chroot/usr/lib/live/config/0031-root-password << 'EOF'
 #!/bin/sh
@@ -126,6 +128,15 @@ cat > kali-config/common/includes.chroot/etc/hostname << 'EOF'
 kaliburn
 EOF
 
+# Change local timezone
+# Add lines to default bashrc
+touch kali-config/common/hooks/live/timezone.chroot && chmod +x $_
+cat > kali-config/common/hooks/live/timezone.chroot << 'EOF'
+#!/bin/bash
+
+ln -s /usr/share/zoneinfo/US/Mountain /etc/localtime
+EOF
+
 # Change tty attributes
 # Values copied from standard kali installation
 mkdir -p kali-config/common/includes.chroot/etc/default && \
@@ -143,6 +154,10 @@ mkdir -p kali-config/common/includes.chroot/etc/modprobe.d && \
 cat > kali-config/common/includes.chroot/etc/modprobe.d/nobeep.conf << 'EOF'
 blacklist pcspkr
 EOF
+
+################################################################################
+# Desktop environment configuration
+################################################################################
 
 # Set up slide
 git clone https://github.com/csebesta/slide \
