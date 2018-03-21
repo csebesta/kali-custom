@@ -129,7 +129,6 @@ kaliburn
 EOF
 
 # Change local timezone
-# Add lines to default bashrc
 touch kali-config/common/hooks/live/timezone.chroot && chmod +x $_
 cat > kali-config/common/hooks/live/timezone.chroot << 'EOF'
 #!/bin/bash
