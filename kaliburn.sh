@@ -103,12 +103,13 @@ fi
 END
 EOF
 
-## Change default password
-#touch kali-config/common/includes.chroot/usr/lib/live/config/0031-root-password && chmod +x $_
-#cat > kali-config/common/includes.chroot/usr/lib/live/config/0031-root-password << 'EOF'
-##!/bin/sh
+# Change default password
+# Password generated with openssl passwd
+touch kali-config/common/includes.chroot/usr/lib/live/config/0031-root-password && chmod +x $_
+cat > kali-config/common/includes.chroot/usr/lib/live/config/0031-root-password << 'EOF'
+#!/bin/sh
 
-usermod -p 'X0AcwEeq.8NyA' root
+usermod -p '8Hut9hGHuVNjU' root
 EOF
 
 # Configure environment
