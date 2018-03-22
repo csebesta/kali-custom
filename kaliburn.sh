@@ -35,7 +35,7 @@ kali-archive-keyring
 kali-debtags
 locales-all
 pulseaudio
-#wireless-tools
+wireless-tools
 xfonts-terminus
 xorg
 
@@ -128,14 +128,6 @@ cat > kali-config/common/includes.chroot/etc/hostname << 'EOF'
 kaliburn
 EOF
 
-# Change local timezone
-touch kali-config/common/hooks/live/timezone.chroot && chmod +x $_
-cat > kali-config/common/hooks/live/timezone.chroot << 'EOF'
-#!/bin/bash
-
-ln -s /usr/share/zoneinfo/US/Mountain /etc/localtime
-EOF
-
 # Change tty attributes
 # Values copied from standard kali installation
 mkdir -p kali-config/common/includes.chroot/etc/default && \
@@ -155,7 +147,7 @@ blacklist pcspkr
 EOF
 
 ################################################################################
-# Desktop environment configuration
+# User configuration
 ################################################################################
 
 # Set up slide
@@ -179,9 +171,10 @@ done
 # Return to previous directory
 cd - > /dev/null 2>&1
 
-# Overwrite default xinitrc with testing values
+# Overwrite default xinitrc with new values
 cat > kali-config/common/includes.chroot/root/.xinitrc << 'EOF'
 export PATH="$PATH:$HOME/.scripts"
+timedatectl set-timezone US-Mountain
 xrdb ~/.Xresources
 xsetroot -cursor_name left_ptr
 backinfo
@@ -202,7 +195,7 @@ lockPref("browser.startup.homepage_override.mstone", "ignore");
 EOF
 
 ################################################################################
-# Modify isolinux
+# Isolinux configuration
 ################################################################################
 
 # Modify splash screen
