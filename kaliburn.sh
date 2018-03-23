@@ -28,12 +28,12 @@ cat > kali-config/variant-default/package-lists/kali.list.chroot << EOF
 # Defaults suggested by kali documentation
 alsa-tools
 alsa-utils
-console-setup
 coreutils
 debian-installer-launcher
 kali-archive-keyring
 kali-debtags
 locales-all
+network-manager
 pulseaudio
 wireless-tools
 xfonts-terminus
@@ -62,27 +62,43 @@ redshift
 stow
 vim
 
-# ----------------------------------------------------------------------
-# Security and penetration testing
-aircrack-ng
-nmap
-wireshark
+## ----------------------------------------------------------------------
+## Security and penetration testing
+#aircrack-ng
+#nmap
+#wireshark
 EOF
 
 ################################################################################
 # System configuration
 ################################################################################
 
-# Add lines to default bashrc
-touch kali-config/common/hooks/live/bashrc.chroot && chmod +x $_
-cat > kali-config/common/hooks/live/bashrc.chroot << 'EOF'
-#!/bin/bash
+# Change default password
+# Password hash generated with openssl passwd
+touch kali-config/common/includes.chroot/usr/lib/live/config/0031-root-password && chmod +x $_
+cat > kali-config/common/includes.chroot/usr/lib/live/config/0031-root-password << 'EOF'
+#!/bin/sh
 
-# Append the following lines to bashrc
-cat >> /root/.bashrc << 'END'
+usermod -p 'RGGDUNbXi72Co' root
+EOF
 
-# Solarized theme for tty
-# https://github.com/joepvd/tty-solarized
+# Change hostname
+mkdir -p kali-config/common/includes.chroot/etc && \
+cat > kali-config/common/includes.chroot/etc/hostname << 'EOF'
+kaliburn
+EOF
+
+# Blacklist pcspkr module
+mkdir -p kali-config/common/includes.chroot/etc/modprobe.d && \
+cat > kali-config/common/includes.chroot/etc/modprobe.d/nobeep.conf << 'EOF'
+blacklist pcspkr
+EOF
+
+# Create directory to host all following profile.d scripts
+mkdir -p kali-config/common/includes.chroot/etc/profile.d
+
+# Configure tty colors
+cat > kali-config/common/includes.chroot/etc/profile.d/set_tty_colors.sh << 'EOF'
 if [ "$TERM" = "linux" ]; then
     echo -en "\e]PB657b83" # S_base00
     echo -en "\e]PA586e75" # S_base01
@@ -102,48 +118,23 @@ if [ "$TERM" = "linux" ]; then
     echo -en "\e]PD6c71c4" # S_violet
     clear # against bg artifacts
 fi
-END
-EOF
-
-# Change default password
-# Password hash generated with openssl passwd
-touch kali-config/common/includes.chroot/usr/lib/live/config/0031-root-password && chmod +x $_
-cat > kali-config/common/includes.chroot/usr/lib/live/config/0031-root-password << 'EOF'
-#!/bin/sh
-
-usermod -p 'RGGDUNbXi72Co' root
 EOF
 
 # Configure environment
-mkdir -p kali-config/common/includes.chroot/etc && \
-cat > kali-config/common/includes.chroot/etc/environment << 'EOF'
-PATH='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.scripts'
-EDITOR='vim'
-VISUAL='vim'
+cat > kali-config/common/includes.chroot/etc/profile.d/set_path.sh << 'EOF'
+export PATH="$PATH:$HOME/.scripts"
+export EDITOR='vim'
+export VISUAL='vim'
 EOF
 
-# Change hostname
-mkdir -p kali-config/common/includes.chroot/etc && \
-cat > kali-config/common/includes.chroot/etc/hostname << 'EOF'
-kaliburn
+# Configure console font
+cat > kali-config/common/includes.chroot/etc/profile.d/set_font.sh << 'EOF'
+setfont /usr/share/consolefonts/Uni3-TerminusBold20x10.psf.gz
 EOF
 
-# Change tty attributes
-# Values copied from standard kali installation
-mkdir -p kali-config/common/includes.chroot/etc/default && \
-cat > kali-config/common/includes.chroot/etc/default/console-setup << 'EOF'
-ACTIVE_CONSOLES="/dev/tty[1-6]"
-CHARMAP="UTF-8"
-CODESET="Lat15"
-FONTFACE="TerminusBold"
-FONTSIZE="16x32"
-VIDEOMODE=
-EOF
-
-# Blacklist pcspkr module
-mkdir -p kali-config/common/includes.chroot/etc/modprobe.d && \
-cat > kali-config/common/includes.chroot/etc/modprobe.d/nobeep.conf << 'EOF'
-blacklist pcspkr
+# Configure timezone
+cat > kali-config/common/includes.chroot/etc/profile.d/set_timezone.sh << 'EOF'
+timedatectl set-timezone US/Mountain
 EOF
 
 ################################################################################
@@ -174,7 +165,7 @@ cd - > /dev/null 2>&1
 # Overwrite default xinitrc with new values
 cat > kali-config/common/includes.chroot/root/.xinitrc << 'EOF'
 export PATH="$PATH:$HOME/.scripts"
-timedatectl set-timezone US-Mountain
+#timedatectl set-timezone US/Mountain
 xrdb ~/.Xresources
 xsetroot -cursor_name left_ptr
 backinfo
