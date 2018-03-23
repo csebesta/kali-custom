@@ -29,6 +29,7 @@ cat > kali-config/variant-default/package-lists/kali.list.chroot << EOF
 alsa-tools
 alsa-utils
 coreutils
+console-setup
 debian-installer-launcher
 kali-archive-keyring
 kali-debtags
@@ -121,7 +122,7 @@ fi
 EOF
 
 # Configure environment
-cat > kali-config/common/includes.chroot/etc/profile.d/set_path.sh << 'EOF'
+cat > kali-config/common/includes.chroot/etc/profile.d/set_environment.sh << 'EOF'
 export PATH="$PATH:$HOME/.scripts"
 export EDITOR='vim'
 export VISUAL='vim'
@@ -165,7 +166,6 @@ cd - > /dev/null 2>&1
 # Overwrite default xinitrc with new values
 cat > kali-config/common/includes.chroot/root/.xinitrc << 'EOF'
 export PATH="$PATH:$HOME/.scripts"
-#timedatectl set-timezone US/Mountain
 xrdb ~/.Xresources
 xsetroot -cursor_name left_ptr
 backinfo
