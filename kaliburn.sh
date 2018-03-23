@@ -95,8 +95,25 @@ cat > kali-config/common/includes.chroot/etc/modprobe.d/nobeep.conf << 'EOF'
 blacklist pcspkr
 EOF
 
-# Create directory to host all following profile.d scripts
+# Create directory to host profile.d scripts
 mkdir -p kali-config/common/includes.chroot/etc/profile.d
+
+# Configure console font
+cat > kali-config/common/includes.chroot/etc/profile.d/set_font.sh << 'EOF'
+setfont /usr/share/consolefonts/Uni3-TerminusBold20x10.psf.gz
+EOF
+
+# Configure environment
+cat > kali-config/common/includes.chroot/etc/profile.d/set_environment.sh << 'EOF'
+export PATH="$PATH:$HOME/.scripts"
+export EDITOR='vim'
+export VISUAL='vim'
+EOF
+
+# Configure timezone
+cat > kali-config/common/includes.chroot/etc/profile.d/set_timezone.sh << 'EOF'
+timedatectl set-timezone US/Mountain
+EOF
 
 # Configure tty colors
 cat > kali-config/common/includes.chroot/etc/profile.d/set_tty_colors.sh << 'EOF'
@@ -119,23 +136,6 @@ if [ "$TERM" = "linux" ]; then
     echo -en "\e]PD6c71c4" # S_violet
     clear # against bg artifacts
 fi
-EOF
-
-# Configure environment
-cat > kali-config/common/includes.chroot/etc/profile.d/set_environment.sh << 'EOF'
-export PATH="$PATH:$HOME/.scripts"
-export EDITOR='vim'
-export VISUAL='vim'
-EOF
-
-# Configure console font
-cat > kali-config/common/includes.chroot/etc/profile.d/set_font.sh << 'EOF'
-setfont /usr/share/consolefonts/Uni3-TerminusBold20x10.psf.gz
-EOF
-
-# Configure timezone
-cat > kali-config/common/includes.chroot/etc/profile.d/set_timezone.sh << 'EOF'
-timedatectl set-timezone US/Mountain
 EOF
 
 ################################################################################
@@ -163,7 +163,7 @@ done
 # Return to previous directory
 cd - > /dev/null 2>&1
 
-# Overwrite default xinitrc with new values
+# Overwrite default xinitrc
 cat > kali-config/common/includes.chroot/root/.xinitrc << 'EOF'
 export PATH="$PATH:$HOME/.scripts"
 xrdb ~/.Xresources
