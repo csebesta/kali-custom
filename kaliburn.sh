@@ -6,7 +6,7 @@
 # https://debian-live.alioth.debian.org/live-manual/stable/manual/html/live-manual.en.html
 # https://docs.kali.org/kali-dojo/02-mastering-live-build
 # https://github.com/offensive-security/kali-linux-recipes
-# https://kali.training/topic/building-custom-kali-live-iso-images/
+# https://kali.training/topic/building-custom-kali-live-iso-images
 
 ################################################################################
 # Kaliburn linux
@@ -63,11 +63,11 @@ redshift
 stow
 vim
 
-## ----------------------------------------------------------------------
-## Security and penetration testing
-#aircrack-ng
-#nmap
-#wireshark
+# ----------------------------------------------------------------------
+# Security and penetration testing
+aircrack-ng
+nmap
+wireshark
 EOF
 
 ################################################################################
@@ -116,6 +116,7 @@ timedatectl set-timezone US/Mountain
 EOF
 
 # Configure tty colors
+# https://github.com/joepvd/tty-solarized
 cat > kali-config/common/includes.chroot/etc/profile.d/set_tty_colors.sh << 'EOF'
 if [ "$TERM" = "linux" ]; then
     echo -en "\e]PB657b83" # S_base00
