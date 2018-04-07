@@ -17,8 +17,8 @@ Installation
 The Kaliburn image can be created by running the kaliburn.sh script. This script can take a moderately long amount of time to run depending on your network connection.
 
 ```
-git clone https://github.com/csebesta/kali-custom
-cd kali-custom
+git clone https://github.com/csebesta/kaliburn
+cd kaliburn
 ./kaliburn.sh
 ```
 
